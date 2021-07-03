@@ -1,0 +1,25 @@
+@import './../../../colors.scss';
+
+
+.today-preview {
+  max-width: 500px;
+  width: 230px;
+}
+
+.today-points {
+  color: $success;
+  font-weight: 700;
+}
+
+.add-points__footer {
+  display: flex;
+  justify-content: center;
+}
+.add-points__content {
+  padding-bottom: 5px;
+}
+
+.today-label {
+  font-size: 12px;
+  font-weight: 700;
+}

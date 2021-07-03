@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Add Focus Points</h1>
+<div mat-dialog-content class="add-focus-points">
+  <form class="add-focus-points__container">  
+
+    <mat-form-field>
+      <mat-label>F:</mat-label>
+      <input matInput type="number" [formControl]="flowControl" [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>D:</mat-label>
+      <input matInput type="number" [formControl]="difficultyControl" [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>E:</mat-label>
+      <input matInput type="number" [formControl]="essentialControl" [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Mins:</mat-label>
+      <input matInput type="number" [formControl]="minsControl" [errorStateMatcher]="matcher">
+    </mat-form-field>
+  </form>
+
+  <mat-chip-list [selectable]="false" chipFocusChanges="preventFocus($event)">
+    <mat-chip *ngFor="let entry of focusEntries | keyvalue" color="success" [removable]="true" (removed)="focusEntryRemoved(entry.value.id)">
+      {{ entry.value.result }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="focus" (click)="addFocusEntry()" [disabled]="isAnyError">Add Points</button>
+  <button *ngIf="focusEntries.size > 0" mat-raised-button color="success" (click)="done()"  >Done</button>
+</div>

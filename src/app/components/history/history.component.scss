@@ -1,0 +1,17 @@
+.history {
+  max-width: 400px;
+
+  &__container {
+    display: flex;
+  }
+}
+
+.history__container {
+  width: 400px;
+}
+
+
+.history__footer {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,35 @@
+@import './../../../../colors.scss';
+
+
+.add-focus-points {
+  height: 350px;
+  width: 200px;
+}
+.add-focus-points__container {
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin-bottom: 20px;
+  }
+}
+
+.mat-focus {
+  background-color: $focus;
+  color: #fff;
+}
+
+.mat-success {
+  background-color: $success;
+  color: #fff;
+}
+
+.focus-entries {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  & > * {
+    margin-bottom: 20px;
+  }
+}

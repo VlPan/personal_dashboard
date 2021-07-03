@@ -1,0 +1,103 @@
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { MatChipList } from '@angular/material/chips';
+import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FocusEntry, MyErrorStateMatcher } from 'src/app/models';
+
+import { v4 as uuidv4 } from 'uuid';
+
+export interface AddFocusPointsDialogData {
+  date: Date;
+}
+
+@Component({
+  selector: 'app-add-focus-points',
+  templateUrl: './add-focus-points.component.html',
+  styleUrls: ['./add-focus-points.component.scss']
+})
+export class AddFocusPointsDialog { 
+
+
+  focusEntries: Map<string, FocusEntry> = new Map();
+
+  matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
+  essentialControl = new FormControl('', [
+    Validators.required,
+    Validators.min(0),
+    Validators.max(10),
+  ]);
+
+  difficultyControl = new FormControl('', [
+    Validators.required,
+    Validators.min(0),
+    Validators.max(10),
+  ]);
+
+  flowControl = new FormControl('', [
+    Validators.required,
+    Validators.min(0),
+    Validators.max(10),
+  ]);
+
+  minsControl = new FormControl('', [
+    Validators.required,
+    Validators.min(0),
+  ]);
+  
+  constructor(
+    public currentDialog: MatDialogRef<AddFocusPointsDialog>,
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: AddFocusPointsDialogData
+  ) {}
+
+  // @ViewChild(MatChipList) entriesList!: MatChipList;
+
+
+  addFocusEntry() {
+    const essential = this.essentialControl.value;
+    const difficulty = this.difficultyControl.value;
+    const flow = this.flowControl.value;
+    const mins = this.minsControl.value;
+
+    const entry: FocusEntry = {
+      id: uuidv4(),
+      essential,
+      difficulty,
+      flow,
+      mins,
+      result: (((essential + difficulty + flow) * mins) / 100 )
+    }
+    this.focusEntries.set(entry.id, entry);
+   
+    this.essentialControl.reset()
+    this.difficultyControl.reset()
+    this.flowControl.reset()
+    this.minsControl.reset()
+  }
+
+  preventFocus(event: FocusEvent) {
+    event.preventDefault();
+  }
+
+  focusEntryRemoved(id: string) {
+    this.focusEntries.delete(id);
+  }
+
+  done() {
+    this.currentDialog.close(this.focusEntries);
+  }
+
+  get isAnyError(): boolean {
+    return this.essentialControl.hasError('min') || 
+           this.essentialControl.hasError('max') ||
+           this.essentialControl.hasError('required') ||
+           this.flowControl.hasError('min') ||
+           this.flowControl.hasError('max') ||
+           this.flowControl.hasError('required') ||
+           this.difficultyControl.hasError('min') ||
+           this.difficultyControl.hasError('max') ||
+           this.difficultyControl.hasError('required') || 
+           this.minsControl.hasError('required')
+  }
+
+}

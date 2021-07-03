@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Add Habit Points</h1>
+<div mat-dialog-content class="add-habit-points">
+  <form class="add-habit-points__container">
+    <mat-form-field>
+      <mat-label>Habit points:</mat-label>
+      <input
+        matInput
+        type="number"
+        [formControl]="habitPointsControl"
+        [errorStateMatcher]="matcher"
+      />
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button [disabled]="isAnyError" color="habit" (click)="done()">Done</button>
+    </div>
+  </form>
+</div>

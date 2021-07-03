@@ -1,0 +1,12 @@
+@import './../../../../colors.scss';
+
+
+.add-habit-points {
+  height: 130px;
+  width: 200px;
+}
+
+.mat-habit {
+  background-color: $habits;
+  color: #fff;
+}

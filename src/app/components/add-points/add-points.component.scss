@@ -1,0 +1,37 @@
+@import './../../../colors.scss';
+
+.add-points {
+  max-width: 400px;
+
+  &__container {
+    display: flex;
+  }
+}
+
+.add-points__container {
+  display: flex;
+
+  & > * {
+    margin-right: 15px;
+  }
+}
+
+.mat-focus {
+  background-color: $focus;
+  color: #fff;
+}
+
+.mat-habits {
+  background-color: $habits;
+  color: #fff;
+}
+
+.mat-additional {
+  background-color: $additional;
+  color: #fff;
+}
+
+.add-points__footer {
+  display: flex;
+  justify-content: center;
+}
