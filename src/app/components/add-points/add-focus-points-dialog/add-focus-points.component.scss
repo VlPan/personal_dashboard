@@ -5,9 +5,16 @@
   height: 350px;
   width: 200px;
 }
+
+.add-focus-points-simplified {
+  height: 130px;
+  width: 200px;
+}
+
 .add-focus-points__container {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   & > * {
     margin-bottom: 20px;
@@ -32,4 +39,9 @@
   & > * {
     margin-bottom: 20px;
   }
+}
+
+.add-focus-points__change-mode {
+  font-size: 12px;
+  font-weight: 700;
 }

@@ -48,15 +48,6 @@ export class TodayPreviewComponent implements OnInit {
       this.updateChartData(date);
     });
 
-    // this.dateControl.isNextDay$.subscribe((date: Date) => {
-    //   this.date.setValue(date);
-    //   this.handleSelectedDay();
-    //   this.updateSelectedDayPoints(date);
-    //   this.updateSelectedDayHistory(date);
-
-    //   this.updateChartData(date);
-    // });
-
     this.date.valueChanges.subscribe((date: Date) => {
       this.handleSelectedDay();
       this.updateSelectedDayPoints(date);
@@ -96,6 +87,10 @@ export class TodayPreviewComponent implements OnInit {
 
   handleSelectedDay() {
     this.selectedDay = DateHelper.generateFormattedDateString(this.date.value);
+  }
+
+  clearToday() {
+    this.pointService.clearDayPoints(this.date.value);
   }
 
   updateChartData(date: Date) {

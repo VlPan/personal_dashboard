@@ -1,7 +1,11 @@
-<h1 mat-dialog-title>Add Focus Points</h1>
-<div mat-dialog-content class="add-focus-points">
+<h1 mat-dialog-title>Add Focus Points 
+  <span class="add-focus-points__change-mode" (click)="toggleMode()">
+    <span *ngIf="isFullMode">(full mode)</span>
+    <span *ngIf="isSimplifiedMode">(simplified mode)</span>
+  </span>
+</h1>
+<div mat-dialog-content class="add-focus-points" *ngIf="isFullMode">
   <form class="add-focus-points__container">  
-
     <mat-form-field>
       <mat-label>F:</mat-label>
       <input matInput type="number" [formControl]="flowControl" [errorStateMatcher]="matcher">
@@ -30,7 +34,26 @@
     </mat-chip>
   </mat-chip-list>
 </div>
-<div mat-dialog-actions>
-  <button mat-raised-button color="focus" (click)="addFocusEntry()" [disabled]="isAnyError">Add Points</button>
-  <button *ngIf="focusEntries.size > 0" mat-raised-button color="success" (click)="done()"  >Done</button>
+
+<div mat-dialog-content class="add-focus-points-simplified" *ngIf="isSimplifiedMode">
+  <form>
+    <mat-form-field>
+      <mat-label>Focus points:</mat-label>
+      <input
+        matInput
+        type="number"
+        [formControl]="focusPointsControl"
+        [errorStateMatcher]="matcher"
+      />
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button [disabled]="isAnyErrorSimplified" color="focus" (click)="done()">Done</button>
+    </div>
+  </form>
 </div>
+
+<div mat-dialog-actions *ngIf="isFullMode">
+    <button mat-raised-button color="focus" (click)="addFocusEntry()" [disabled]="isAnyError">Add Points</button>
+    <button *ngIf="focusEntries.size > 0" mat-raised-button color="success" (click)="done()"  >Done</button>
+</div>
+

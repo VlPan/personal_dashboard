@@ -1,7 +1,7 @@
 import { FocusEntry } from './../../models';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddFocusPointsDialog } from './add-focus-points-dialog/add-focus-points-dialog';
+import { AddFocusPointsDialog, AddFocusPointsViewMode } from './add-focus-points-dialog/add-focus-points-dialog';
 import { PointsService } from 'src/app/services/points.service';
 import { AddHabitPointsDialog } from './add-habit-points-dialog/add-habit-points-dialog';
 import { AddAdditionalPointsDialog } from './add-additional-points-dialog/add-additional-points-dialog';
@@ -35,12 +35,15 @@ export class AddPointsComponent implements OnInit {
       }
     });
 
-    const subscriber = dialogRef.afterClosed().subscribe((focusEntries: Map<string, FocusEntry>) => {   
-      if(focusEntries) {
+    const subscriber = dialogRef.afterClosed().subscribe(({focusEntries, mode, simplifiedPoints}: {focusEntries: Map<string, FocusEntry>, mode: AddFocusPointsViewMode, simplifiedPoints: number}) => {   
+      if(focusEntries && mode === AddFocusPointsViewMode.full) {
         const totalPoints = Array.from(focusEntries.values()).reduce((a, b) => a + b.result, 0);
         this.pointsService.addPointsToDate(this.date.value, totalPoints, 'focus');
         this.pointsService.saveFocusEntities(Array.from(focusEntries.values()), this.date.value);
-      }   
+      }  
+      if(mode === AddFocusPointsViewMode.simplified) {
+        this.pointsService.addPointsToDate(this.date.value, simplifiedPoints, 'focus');
+      }
 
       subscriber.unsubscribe();
     });

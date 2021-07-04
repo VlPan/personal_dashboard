@@ -117,9 +117,9 @@ export class HistoryComponent implements OnInit {
 
     console.log('-----> labels', labels);
 
-    if(start.getFullYear() !== end.getFullYear()) {
+    if(labels.length > 31) {
       this.canvasWidth = 800;
-    } else if(start.getMonth() !== end.getMonth()) {
+    } else if(labels.length > 7) {
       this.canvasWidth = 600;
     } else {
       this.canvasWidth = 400;

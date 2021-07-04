@@ -4,6 +4,7 @@
   max-width: 400px;
 
   &__container {
+    flex-wrap: wrap;
     display: flex;
   }
 }

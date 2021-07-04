@@ -20,6 +20,8 @@ export class AddFocusPointsDialog {
 
   focusEntries: Map<string, FocusEntry> = new Map();
 
+  mode: AddFocusPointsViewMode = AddFocusPointsViewMode.full;
+
   matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
   essentialControl = new FormControl('', [
     Validators.required,
@@ -42,6 +44,11 @@ export class AddFocusPointsDialog {
   minsControl = new FormControl('', [
     Validators.required,
     Validators.min(0),
+  ]);
+
+  focusPointsControl = new FormControl(null, [
+    Validators.required,
+    Validators.min(1),
   ]);
   
   constructor(
@@ -84,7 +91,7 @@ export class AddFocusPointsDialog {
   }
 
   done() {
-    this.currentDialog.close(this.focusEntries);
+    this.currentDialog.close({focusEntries: this.focusEntries, mode: this.mode, simplifiedPoints: this.focusPointsControl.value});
   }
 
   get isAnyError(): boolean {
@@ -100,4 +107,32 @@ export class AddFocusPointsDialog {
            this.minsControl.hasError('required')
   }
 
+  get isAnyErrorSimplified(): boolean {
+    return this.focusPointsControl.hasError('required') || 
+           this.focusPointsControl.hasError('min')
+  }
+
+
+  toggleMode() {
+    this.focusEntries.clear();
+    if(this.isFullMode) {
+      this.mode = AddFocusPointsViewMode.simplified
+    } else {
+      this.mode = AddFocusPointsViewMode.full
+    }
+  }
+
+  get isFullMode() {
+    return this.mode === AddFocusPointsViewMode.full;
+  }
+
+  get isSimplifiedMode() {
+    return this.mode === AddFocusPointsViewMode.simplified;
+  }
+}
+
+
+export enum AddFocusPointsViewMode {
+  full = 'full',
+  simplified = 'simplified'
 }

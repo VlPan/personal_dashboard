@@ -45,6 +45,19 @@ export class PointsService {
  
   }
 
+  clearDayPoints(date: Date) {
+    const searchDate = this.getSearchString(date);
+
+    this.daysHistory[searchDate] = {
+      focus: 0,
+      habits: 0,
+      additional: 0
+    };
+
+    this.ls.set(LocalStorage.HISTORY_ENTRIES_KEY, this.daysHistory);
+    this.pointsChanged$.next(date);
+  }
+
   getSearchString(d: Date) {
     return DateHelper.generateDateString(d);
   }
