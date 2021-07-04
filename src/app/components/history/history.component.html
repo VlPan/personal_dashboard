@@ -1,6 +1,6 @@
 <mat-card class="history"> 
 
-  <mat-card-content class="history__container">
+  <mat-card-content class="history__container" [ngStyle]="{'width.px': canvasWidth}">
     <canvas #historyChart></canvas>
   </mat-card-content>
 

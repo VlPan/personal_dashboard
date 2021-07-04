@@ -18,11 +18,13 @@ export class HistoryComponent implements OnInit {
   });
 
   chart: any;
+
+  canvasWidth: number = 400;
   
   @ViewChild('historyChart') historyChart!: ElementRef;
 
   constructor(private dateControl: DateControlService, private pointsService: PointsService) { 
-    this.range.controls.start.setValue(DateHelper.getClosestMonday(this.dateControl.today));
+    this.range.controls.start.setValue(DateHelper.getClosestPrevMonday(this.dateControl.today));
     this.range.controls.end.setValue(dateControl.today);
   }
 
@@ -58,6 +60,11 @@ export class HistoryComponent implements OnInit {
       }
     )
 
+    console.log('-----> historyRange', historyRange);
+    console.log('-----> focus', historyRange.focus);
+    console.log('-----> habits', historyRange.habits);
+    console.log('-----> additional', historyRange.additional);
+
     const data = {
       labels,
       datasets: [
@@ -73,7 +80,7 @@ export class HistoryComponent implements OnInit {
         },
         {
           label: 'additional',
-          data: historyRange.focus,
+          data: historyRange.additional,
           backgroundColor: 'rgb(76,187,23)'
         },
       ],
@@ -99,12 +106,24 @@ export class HistoryComponent implements OnInit {
   }
 
   updateChart() {
+    const start = this.range.controls.start.value;
+    const end = this.range.controls.end.value;
     const labels = DateHelper.getLabelsForRange(
       {
-        start: this.range.controls.start.value,
-        end: this.range.controls.end.value,
+        start,
+        end
       }
     );
+
+    console.log('-----> labels', labels);
+
+    if(start.getFullYear() !== end.getFullYear()) {
+      this.canvasWidth = 800;
+    } else if(start.getMonth() !== end.getMonth()) {
+      this.canvasWidth = 600;
+    } else {
+      this.canvasWidth = 400;
+    }
 
     const data: HistoryRange = this.pointsService.getHistoryFromRange(
       {
@@ -118,7 +137,6 @@ export class HistoryComponent implements OnInit {
     this.chart.data.datasets[1].data = data.habits;
     this.chart.data.datasets[2].data = data.additional;
 
-    this.chart.type = 'line'
     this.chart.update();
 
   }

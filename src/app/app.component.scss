@@ -9,11 +9,13 @@
   padding-top: 40px;
   margin: 0 auto;
   width: 90%;
+  flex-wrap: wrap;
 
   display: flex;
   flex-direction: row;
 
   & > * {
     margin-right: 30px;
+    margin-bottom: 20px;
   }
 }

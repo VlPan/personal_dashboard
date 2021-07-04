@@ -88,17 +88,16 @@ export class PointsService {
     const habits = [];
     const additional = [];
 
-    const startIndex = start.getDay();
-    const endIndex = end.getDay();
-
-
     let iteratedDate = new Date(start);
-    
+    let iterateTo =  new Date(end);
+    iterateTo.setDate(iterateTo.getDate() + 1);
 
-    for(let i = 0; i <= endIndex - startIndex; i++) {
-     
+
+
+    while(iteratedDate <= iterateTo) {
       const currentStats: PointsEntry = this.getSelectedDayHistory(iteratedDate)
       console.log('-----> iteratedDate', iteratedDate);
+      console.log('-----> currentStats', currentStats);
 
       focus.push(currentStats.focus);
       habits.push(currentStats.habits);
@@ -106,8 +105,7 @@ export class PointsService {
 
       iteratedDate.setDate(iteratedDate.getDate() + 1);
     }
-
-
+  
 
     return {
       focus: focus,

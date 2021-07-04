@@ -2,7 +2,16 @@ import { Formatter } from './timeFormatter';
 
 export class DateHelper {
 
-  static dateLabelsMap = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  // static dateLabelsMap = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  static dateLabelsMap = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+
+  static convertToFirstMondayOrder(dayNumber: number): number {
+    if(dayNumber === 0) {
+      return 6;
+    } else {
+      return dayNumber - 1;
+    }
+  }
 
   // static today: Date = new Date();
   static generateDateString(date: Date) {
@@ -20,6 +29,16 @@ export class DateHelper {
     const specificMonth = new Date(date).getMonth();
 
     const searchString = `${specificMonth + 1}/${specificDay}`;
+
+    return searchString;
+  }
+
+  static generateLongDateString(date: Date) {
+    const specificDay = new Date(date).getDate();
+    const specificMonth = new Date(date).getMonth();
+    const currentYear = Formatter.formatTimeNumber(date.getFullYear());
+
+    const searchString = `${specificMonth + 1}/${specificDay}/${currentYear}`;
 
     return searchString;
   }
@@ -44,18 +63,24 @@ export class DateHelper {
     return start;
   }
 
-  static getClosestMonday(date: Date): Date {
+  static getClosestPrevMonday(date: Date): Date {
     const today = date.getDay(); 
-    let monday: Date = new Date(date);
-    monday.setDate(date.getDate() - (today - 1)); // -1 to get Monday
+    let monday: Date = new Date();
+
+    if(date.getDay() == 0){
+      monday.setDate(date.getDate() - 6);
+    }
+    else{
+      monday.setDate(date.getDate() - (today-1));
+    }
 
     console.log('----->monday ', monday);
     return monday;
   }
 
   static getLabelsForRange({start, end}: Range) {
-    let startDate = start.getDay();
-    let endDate = end.getDay();
+    let startDate = this.convertToFirstMondayOrder(start.getDay());
+    let endDate = this.convertToFirstMondayOrder(end.getDay());
 
     console.log('%c-----> start', 'color: #eb0c2d', start);
     console.log('%c-----> end', 'color: #eb0c2d', end);
@@ -65,14 +90,21 @@ export class DateHelper {
       return this.dateLabelsMap.slice(startDate, endDate + 1);
     }
 
-    startDate = start.getDate();
-    endDate = end.getDate();
-    const result = [];
-    const dateToIterate = new Date(start);
-    for(let i = 0; i < endDate - startDate; i++) {
-      result.push(this.generateShortDateString(dateToIterate))
+    let iteratedDate = new Date(start);
+    let iterateTo =  new Date(end);
+    iterateTo.setDate(iterateTo.getDate() + 1);
 
-      dateToIterate.setDate(start.getDate() + i);
+    const isDifferentYears: boolean = iteratedDate.getFullYear() !== iterateTo.getFullYear();
+
+    const result = [];
+    while(iteratedDate <= iterateTo) {
+      if(!isDifferentYears) {
+        result.push(this.generateShortDateString(iteratedDate))
+      } else {
+        result.push(this.generateLongDateString(iteratedDate))
+      }
+
+      iteratedDate.setDate(iteratedDate.getDate() + 1);
     }
 
 
