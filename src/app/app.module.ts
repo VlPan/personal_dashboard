@@ -21,6 +21,7 @@ import { AddHabitPointsDialog } from './components/add-points/add-habit-points-d
 import { AddAdditionalPointsDialog } from './components/add-points/add-additional-points-dialog/add-additional-points-dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HistoryComponent } from './components/history/history.component';
+import { ExportImportComponent } from './components/export-import/export-import.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { HistoryComponent } from './components/history/history.component';
     AddHabitPointsDialog,
     AddAdditionalPointsDialog,
     HistoryComponent,
-    BalanceComponent
+    BalanceComponent,
+    ExportImportComponent
   ],
   imports: [
     BrowserModule,
