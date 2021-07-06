@@ -1,0 +1,36 @@
+@import './../../../colors.scss';
+
+
+.balance__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .balance__label {
+    color: $habits;
+  }
+
+  .balance__points {
+    color: $focus;
+  }
+
+  & > * {
+    margin-bottom: 15px;
+  }
+}
+
+.balance__actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  & > * {
+    margin-bottom: 10px;
+  }
+}
+
+.add-habit-points__container {
+  display: flex;
+  flex-direction: column;
+}

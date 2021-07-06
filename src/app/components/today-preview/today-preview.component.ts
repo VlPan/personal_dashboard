@@ -12,6 +12,7 @@ import Chart from 'chart.js/auto';
 import { DateHelper } from 'src/app/helpers/dateHelper';
 import { FormControl } from '@angular/forms';
 import { DateControlService } from 'src/app/services/date-control.service';
+import { RoundHelper } from 'src/app/helpers/roundHelper';
 
 @Component({
   selector: 'app-today-preview',
@@ -114,7 +115,7 @@ export class TodayPreviewComponent implements OnInit {
       date
     );
     if (shouldUpdate) {
-      this.todayPoints = this.pointService.getSelectedDayPoints(date);
+      this.todayPoints = RoundHelper.twoDecimals(this.pointService.getSelectedDayPoints(date));
     }
   }
 

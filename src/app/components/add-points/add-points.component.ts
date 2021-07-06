@@ -36,11 +36,9 @@ export class AddPointsComponent implements OnInit {
     });
 
     const subscriber = dialogRef.afterClosed().subscribe(({focusEntries, mode, simplifiedPoints}: {focusEntries: Map<string, FocusEntry>, mode: AddFocusPointsViewMode, simplifiedPoints: number}) => {   
-      if(focusEntries && mode === AddFocusPointsViewMode.full) {
-        const totalPoints = Array.from(focusEntries.values()).reduce((a, b) => a + b.result, 0);
-        this.pointsService.addPointsToDate(this.date.value, totalPoints, 'focus');
-        this.pointsService.saveFocusEntities(Array.from(focusEntries.values()), this.date.value);
-      }  
+      // if(focusEntries && mode === AddFocusPointsViewMode.full) {
+        // this.pointsService.saveFocusEntities(Array.from(focusEntries.values()), this.date.value);
+      // }  
       if(mode === AddFocusPointsViewMode.simplified) {
         this.pointsService.addPointsToDate(this.date.value, simplifiedPoints, 'focus');
       }

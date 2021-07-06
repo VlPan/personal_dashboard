@@ -1,8 +1,10 @@
+import { BalanceService } from './balance.service';
 import { FocusEntry } from './../models';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { LocalStorage } from './local-storage.service';
 import { DateHelper, Range } from '../helpers/dateHelper';
+import { RoundHelper } from '../helpers/roundHelper';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +18,7 @@ export class PointsService {
   daysHistory: HistoryEntries;
   focusHistory: FocusEntries;
 
-  constructor(public ls: LocalStorage) {
+  constructor(public ls: LocalStorage, public balance: BalanceService) {
     this.daysHistory = this.getAllHistory();
     this.focusHistory = this.getAllFocusEntries();
   }
@@ -29,32 +31,54 @@ export class PointsService {
     return this.getAllHistory()[searchDate] || {};
   }
 
-  addPointsToDate(date: Date, points: number, type: PointsType) {
+  addPointsToDate(date: Date, points: number, type: PointsType): number {
     const searchDate = this.getSearchString(date);
 
     const pointsHistory = this.getHistoryAtDate(searchDate);
     if(!pointsHistory[type]) {
       pointsHistory[type] = 0;
     }
+
+    // for focus
+    if(type === 'focus') {
+      const currentFocusPoints: number = pointsHistory[type];
+      if(currentFocusPoints > 60) {
+        const rewardForCurrentPoints = (currentFocusPoints - 60)
+        const rewardPoints: number = rewardForCurrentPoints * (15/60)
+  
+        points += (points * ((rewardPoints / 100) + 1));
+      }
+    }
+
+    points = RoundHelper.twoDecimals(points);
     pointsHistory[type] += points;
 
     this.daysHistory[searchDate] = pointsHistory;
     this.ls.set(LocalStorage.HISTORY_ENTRIES_KEY, this.daysHistory);
 
     this.pointsChanged$.next(date);
- 
+    this.balance.add(points, type);
+
+    return points;
   }
 
   clearDayPoints(date: Date) {
     const searchDate = this.getSearchString(date);
 
+    const dayEntry = this.daysHistory[searchDate];
+
+    const totalPoints = dayEntry.focus + dayEntry.additional + dayEntry.habits;
     this.daysHistory[searchDate] = {
       focus: 0,
       habits: 0,
       additional: 0
     };
 
+    this.focusHistory[searchDate] = [];
+
     this.ls.set(LocalStorage.HISTORY_ENTRIES_KEY, this.daysHistory);
+    this.ls.set(LocalStorage.FOCUS_ENTRIES_KEY, this.focusHistory);
+    this.balance.charge(totalPoints, 'clear day points');
     this.pointsChanged$.next(date);
   }
 
@@ -84,13 +108,23 @@ export class PointsService {
     return this.getAllFocusEntries()[searchDate] || [];
   }
 
-  saveFocusEntities(entities: FocusEntry[], date: Date): void {
+  // saveFocusEntities(entities: FocusEntry[], date: Date): void {
+  //   const searchDate = this.getSearchString(date);
+  //   const todayFocus = this.getAllFocusEntriesAtDate(searchDate);
+
+  //   entities.forEach(e => {
+  //     todayFocus.push(e);
+  //   })
+
+  //   this.focusHistory[searchDate] = todayFocus;
+  //   this.ls.set(LocalStorage.FOCUS_ENTRIES_KEY, this.focusHistory);
+  // }
+
+  saveFocusEntity(entry: FocusEntry, date: Date): void {
     const searchDate = this.getSearchString(date);
     const todayFocus = this.getAllFocusEntriesAtDate(searchDate);
 
-    entities.forEach(e => {
-      todayFocus.push(e);
-    })
+    todayFocus.push(entry);
 
     this.focusHistory[searchDate] = todayFocus;
     this.ls.set(LocalStorage.FOCUS_ENTRIES_KEY, this.focusHistory);
@@ -125,6 +159,18 @@ export class PointsService {
       habits: habits,
       additional: additional,
     }
+  }
+
+  public addRewardsForLongConcentration(points: number, totalMins: number): number {
+
+    if(totalMins > 60) {
+      const rewardedMins = totalMins - 60;
+      const additionalPoints = rewardedMins * (15/60); // 15 points for each new hour
+  
+      return points + additionalPoints;
+    }
+    return points;
+
   }
 
 }

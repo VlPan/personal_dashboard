@@ -1,0 +1,34 @@
+<mat-card class="balance" > 
+  <mat-card-content class="balance__container">
+    <mat-card-title class="balance__title">
+      <div class="balance__label">My Balance: </div>
+      <div class="balance__points">{{balanceService.balanceChanged$ | async}}</div>
+    </mat-card-title>
+    <form class="add-habit-points__container">
+
+      <mat-form-field>
+        <mat-label>Reward title</mat-label>
+        <input
+          matInput
+          [formControl]="rewardTitleControl"
+          [errorStateMatcher]="matcher"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Number</mat-label>
+        <input
+          matInput
+          type="number"
+          [formControl]="balancePointsControl"
+          [errorStateMatcher]="matcher"
+        />
+      </mat-form-field>
+      
+      <div mat-dialog-actions class="balance__actions">
+        <button mat-raised-button [disabled]="isAnyError" color="primary" (click)="charge()">Charge</button>
+        <button mat-raised-button [disabled]="isAnyError" color="warn" (click)="add()">Add</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

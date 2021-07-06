@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 })
 export class DateControlService {
   today: Date = new Date();
+  dateWhenInitialized: Date = new Date();
 
   isNextDay$: Subject<Date> = new Subject();
 

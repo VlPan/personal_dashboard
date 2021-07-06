@@ -1,3 +1,4 @@
+import { PointsService } from 'src/app/services/points.service';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatChipList } from '@angular/material/chips';
@@ -54,7 +55,8 @@ export class AddFocusPointsDialog {
   constructor(
     public currentDialog: MatDialogRef<AddFocusPointsDialog>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: AddFocusPointsDialogData
+    @Inject(MAT_DIALOG_DATA) public data: AddFocusPointsDialogData,
+    public pointsService: PointsService
   ) {}
 
   // @ViewChild(MatChipList) entriesList!: MatChipList;
@@ -66,20 +68,27 @@ export class AddFocusPointsDialog {
     const flow = this.flowControl.value;
     const mins = this.minsControl.value;
 
+    const result = (((essential + difficulty + flow) * mins) / 100 );
+
+    let resultWithReward = this.pointsService.addRewardsForLongConcentration(result, mins);
+    let finalResult = this.pointsService.addPointsToDate(this.data.date, resultWithReward, 'focus');
+
     const entry: FocusEntry = {
       id: uuidv4(),
       essential,
       difficulty,
       flow,
       mins,
-      result: (((essential + difficulty + flow) * mins) / 100 )
+      result: finalResult
     }
     this.focusEntries.set(entry.id, entry);
+    this.pointsService.saveFocusEntity(entry, this.data.date);
    
     this.essentialControl.reset()
     this.difficultyControl.reset()
     this.flowControl.reset()
     this.minsControl.reset()
+
   }
 
   preventFocus(event: FocusEvent) {

@@ -1,3 +1,4 @@
+import { BalanceComponent } from './components/balance/balance.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -30,6 +31,7 @@ import { HistoryComponent } from './components/history/history.component';
     AddHabitPointsDialog,
     AddAdditionalPointsDialog,
     HistoryComponent,
+    BalanceComponent
   ],
   imports: [
     BrowserModule,
