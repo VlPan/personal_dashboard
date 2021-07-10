@@ -1,0 +1,65 @@
+@import './../../../colors.scss';
+
+.current-focus {
+  width: 500px;
+}
+
+.current-focus__option {
+  width: 100%;
+  display: flex;
+
+}
+
+.objectives {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+
+.objective {
+  padding: 15px 0;
+  display: flex;
+
+  justify-content: space-around;
+  align-content: center;
+  // border: 1px solid greenyellow;
+}
+
+.objective-name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100px; // some width
+
+  display: flex;
+  align-items: center;
+
+}
+
+.objective-reward {
+  color: $success;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+
+.name-line {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+
+  font-weight: 700;
+}
+
+.objective-actions {
+  display: flex;
+  // border: 1px solid red;
+  width: 100px;
+
+}
+
+.add-objective {
+  margin-left: 10px;
+}

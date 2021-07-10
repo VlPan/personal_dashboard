@@ -2,8 +2,7 @@ import { Formatter } from './timeFormatter';
 
 export class DateHelper {
 
-  // static dateLabelsMap = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-  static dateLabelsMap = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  static dateLabelsMap = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   static convertToFirstMondayOrder(dayNumber: number): number {
     if(dayNumber === 0) {
@@ -74,21 +73,12 @@ export class DateHelper {
       monday.setDate(date.getDate() - (today-1));
     }
 
-    console.log('----->monday ', monday);
     return monday;
   }
 
   static getLabelsForRange({start, end}: Range) {
-    let startDate = this.convertToFirstMondayOrder(start.getDay());
-    let endDate = this.convertToFirstMondayOrder(end.getDay());
 
-    console.log('%c-----> start', 'color: #eb0c2d', start);
-    console.log('%c-----> end', 'color: #eb0c2d', end);
-
-
-    if((end.getTime() - start.getTime()) < 1000 * 60 * 60 * 24 * 7) {
-      return this.dateLabelsMap.slice(startDate, endDate + 1);
-    }
+    const shouldShowWeekLabels: boolean = (end.getTime() - start.getTime()) < 1000 * 60 * 60 * 24 * 6;
 
     let iteratedDate = new Date(start);
     let iterateTo =  new Date(end);
@@ -99,7 +89,7 @@ export class DateHelper {
     const result = [];
     while(iteratedDate <= iterateTo) {
       if(!isDifferentYears) {
-        result.push(this.generateShortDateString(iteratedDate))
+        result.push(shouldShowWeekLabels ? this.getWeekLabel(iteratedDate) : this.generateShortDateString(iteratedDate))
       } else {
         result.push(this.generateLongDateString(iteratedDate))
       }
@@ -107,8 +97,11 @@ export class DateHelper {
       iteratedDate.setDate(iteratedDate.getDate() + 1);
     }
 
-
     return result;
+  }
+
+  static getWeekLabel(date: Date) {
+    return this.dateLabelsMap[date.getDay()]
   }
 }
 

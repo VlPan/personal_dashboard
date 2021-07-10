@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatListModule} from '@angular/material/list';
 import { AddFocusPointsDialog } from './components/add-points/add-focus-points-dialog/add-focus-points-dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddHabitPointsDialog } from './components/add-points/add-habit-points-dialog/add-habit-points-dialog';
@@ -22,6 +23,10 @@ import { AddAdditionalPointsDialog } from './components/add-points/add-additiona
 import { MatNativeDateModule } from '@angular/material/core';
 import { HistoryComponent } from './components/history/history.component';
 import { ExportImportComponent } from './components/export-import/export-import.component';
+import { CurrentFocusComponent } from './components/current-focus/current-focus.component';
+import { AddObjectiveDialogComponent } from './components/current-focus/add-objective-dialog/add-objective-dialog.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,9 @@ import { ExportImportComponent } from './components/export-import/export-import.
     AddAdditionalPointsDialog,
     HistoryComponent,
     BalanceComponent,
-    ExportImportComponent
+    ExportImportComponent,
+    CurrentFocusComponent,
+    AddObjectiveDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +57,10 @@ import { ExportImportComponent } from './components/export-import/export-import.
     MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
+    MatListModule,
+    MatTooltipModule,
+    MatSliderModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

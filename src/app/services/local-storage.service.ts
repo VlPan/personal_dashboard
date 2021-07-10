@@ -30,6 +30,7 @@ export class LocalStorage {
 
   static HISTORY_ENTRIES_KEY = 'history_entries';
   static FOCUS_ENTRIES_KEY = 'focus_entries';
+  static OBJECTIVES_KEY = 'objectives';
 }
 
 

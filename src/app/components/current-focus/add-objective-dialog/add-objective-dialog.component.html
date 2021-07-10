@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Add objective</h1>
+<div mat-dialog-content class="add-objective">
+  <form class="add-objective__container">
+    <mat-form-field>
+      <mat-label>Objective Title</mat-label>
+      <input
+        matInput
+        type="string"
+        [formControl]="objectiveName"
+        [errorStateMatcher]="matcher"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Reward:</mat-label>
+      <input
+        matInput
+        type="number"
+        [formControl]="reward"
+        [errorStateMatcher]="matcher"
+      />
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button [disabled]="isAnyError" color="primary" (click)="done()">Done</button>
+    </div>
+  </form>
+</div>
