@@ -2,6 +2,12 @@
 
 .current-focus {
   width: 500px;
+
+  padding: 0;
+}
+
+.title {
+ padding: 16px;
 }
 
 .current-focus__option {
@@ -15,15 +21,17 @@
   flex-direction: column;
 
   justify-content: space-between;
+
 }
 
-.objective {
+.objective-container {
   padding: 15px 0;
   display: flex;
 
   justify-content: space-around;
   align-content: center;
-  // border: 1px solid greenyellow;
+
+  padding: 16px;
 }
 
 .objective-name {
@@ -62,6 +70,14 @@
 
 .add-objective {
   margin-left: 10px;
+}
+
+.highlight-objective {
+  margin-left: 10px;
+}
+
+.isHighlighted {
+  background-color: #f7f760;
 }
 
 .objective-progress {

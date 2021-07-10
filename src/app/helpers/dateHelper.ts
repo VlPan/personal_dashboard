@@ -12,7 +12,6 @@ export class DateHelper {
     }
   }
 
-  // static today: Date = new Date();
   static generateDateString(date: Date) {
     const specificDay = new Date(date).getDate();
     const specificMonth = new Date(date).getMonth();

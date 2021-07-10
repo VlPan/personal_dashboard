@@ -27,6 +27,8 @@ export class CurrentFocusComponent {
   start = this.red;
   end = this.yellow;
 
+  isHighlightModeOn: boolean = false;
+
   formatLabel(value: number) {
     return value  + '%';
   }
@@ -127,4 +129,23 @@ export class CurrentFocusComponent {
 
     return 'rgb(' + r + ',' + g + ',' + b + ')';
   }
+
+  toHighlightObjectiveMode() {
+    this.isHighlightModeOn = true;
+  }
+
+  highlightModeOff() {
+    this.isHighlightModeOn = false;
+  }
+
+  toggleHightLightObjectiveForToday(objective: Objective) {
+    if(this.isHighlightModeOn) {
+      this.objectiveService.toggleHightLightObjectiveForToday(objective);
+    }
+  }
+
+  isObjectiveSelected(objective: Objective) {
+    return this.objectiveService.hightLightObjectives.some(h => h.id === objective.id);
+  }
 }
+

@@ -1,3 +1,4 @@
+import { DateHelper } from './../helpers/dateHelper';
 import { BalanceService } from './balance.service';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -14,9 +15,13 @@ export class ObjectiveService {
 
   public objectivesChanged$: Subject<Objective[]> = new Subject();
 
+  public hightLightObjectives: Objective[] = []
+
   constructor(public ls: LocalStorage, public balance: BalanceService, private points: PointsService, private dateControl: DateControlService) {
     this.objectives = this.getObjectives();
     this.uncompletedObjectives = this.getUncompletedObjectives();
+
+    this.hightLightObjectives = this.getHighlighted();
   }
 
   getObjectives(): ObjectiveEntry {
@@ -51,6 +56,34 @@ export class ObjectiveService {
     delete this.objectives[objective.id]
     this.saveObjectives();
   } 
+
+  toggleHightLightObjectiveForToday(objective: Objective) {
+    const isExist: boolean = this.hightLightObjectives.some(h => h.id === objective.id);
+    const noneSelected: boolean = this.hightLightObjectives.length === 0;
+    if(isExist) {
+      this.hightLightObjectives = this.hightLightObjectives.filter(h => objective.id !== h.id);
+    } else {
+      if(noneSelected) {
+        this.hightLightObjectives.push(objective);
+      }
+    }
+
+    this.saveHighlighted();
+  }
+
+  saveHighlighted() {
+    const dateStr = DateHelper.generateDateString(this.dateControl.dateWhenInitialized);
+
+    const all = this.ls.get(LocalStorage.FOCUSED_AREAS) || {};
+    all[dateStr] = this.hightLightObjectives;
+    this.ls.set(LocalStorage.FOCUSED_AREAS, all);
+  }
+
+  getHighlighted(): Objective[] {
+    const dateStr = DateHelper.generateDateString(this.dateControl.dateWhenInitialized);
+    const all = this.ls.get(LocalStorage.FOCUSED_AREAS) || {};
+    return all[dateStr] || [];
+  }
 
 }
 

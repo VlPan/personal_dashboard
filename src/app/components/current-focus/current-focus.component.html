@@ -1,6 +1,6 @@
 <mat-card class="current-focus">
   <mat-card-header>
-    <mat-card-title>
+    <mat-card-title class="title">
       Current Focus
       <button
         mat-mini-fab
@@ -12,69 +12,95 @@
       >
         <mat-icon>add</mat-icon>
       </button>
+
+      <button
+        *ngIf="!isHighlightModeOn"
+        mat-mini-fab
+        color="primary"
+        aria-label="highlight Objective"
+        matTooltip="Add"
+        class="highlight-objective"
+        (click)="toHighlightObjectiveMode()"
+      >
+        <mat-icon>highlight_alt</mat-icon>
+      </button>
+
+      <button
+        *ngIf="isHighlightModeOn"
+        mat-mini-fab
+        color="primary"
+        aria-label="highlight Objective"
+        matTooltip="Add"
+        class="highlight-objective"
+        (click)="highlightModeOff()"
+      >
+        <mat-icon>highlight_off</mat-icon>
+      </button>
     </mat-card-title>
   </mat-card-header>
 
   <mat-card-content class="current-focus__container">
     <div class="objectives">
-      <div class="objective" *ngFor="let objective of objectives">
-        <div class="objective-name">
-          <div
-            class="name-line"
-            [ngStyle]="{ color: calculateObjectiveColor(objective.progress) }"
-            [matTooltip]="objective.title"
-            [matTooltipDisabled]="!ifOverflow(toolTip)"
-            #toolTip
-          >
-            {{ objective.title }}
+      <div class="objective" *ngFor="let objective of objectives" (click)="toggleHightLightObjectiveForToday(objective)" [ngClass]="{'isHighlighted': isObjectiveSelected(objective)}">
+        <div class="objective-container">
+          <div class="objective-name">
+            <div
+              class="name-line"
+              [ngStyle]="{ color: calculateObjectiveColor(objective.progress) }"
+              [matTooltip]="objective.title"
+              [matTooltipDisabled]="!ifOverflow(toolTip)"
+              #toolTip
+            >
+              {{ objective.title }}
+            </div>
           </div>
-        </div>
-        <div class="objective-progress">
-          <mat-slider
-            class="slider"
-            (valueChange)="updateObjectiveProgress($event, objective)"
-            [value]="objective.progress"
-            thumbLabel
-            [displayWith]="formatLabel"
-            step="1"
-            min="0"
-            max="100"
-            color="primary"
-            aria-label="percentage"
-          ></mat-slider>
-        </div>
-        <div class="objective-reward">+{{ objective.reward }}</div>
-        <div class="objective-actions">
-          <button
-            mat-icon-button
-            aria-label="Example icon button with a vertical three dot icon"
-            color="primary"
-            matTooltip="Edit"
-            (click)="updateObjective(objective)"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-
-          <button
-            mat-icon-button
-            aria-label="Example icon button with a vertical three dot icon"
-            color="warn"
-            matTooltip="Delete"
-            (click)="deleteObjective(objective)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-
-          <button
-            mat-icon-button
-            aria-label="Example icon button with a vertical three dot icon"
-            color="accent"
-            matTooltip="Done"
-            (click)="completeObjective(objective)"
-            [disabled]="objective.progress !== 100"
-          >
-            <mat-icon>check</mat-icon>
-          </button>
+          <div class="objective-progress">
+            <mat-slider
+              class="slider"
+              (valueChange)="updateObjectiveProgress($event, objective)"
+              [value]="objective.progress"
+              thumbLabel
+              [displayWith]="formatLabel"
+              step="1"
+              min="0"
+              max="100"
+              color="primary"
+              aria-label="percentage"
+            ></mat-slider>
+          </div>
+          <div class="objective-reward">+{{ objective.reward }}</div>
+          <div class="objective-actions">
+            <button
+              mat-icon-button
+              aria-label="Example icon button with a vertical three dot icon"
+              color="primary"
+              matTooltip="Edit"
+              (click)="updateObjective(objective)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+  
+            <button
+              mat-icon-button
+              aria-label="Example icon button with a vertical three dot icon"
+              color="warn"
+              matTooltip="Delete"
+              (click)="deleteObjective(objective)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+  
+            <button
+              mat-icon-button
+              aria-label="Example icon button with a vertical three dot icon"
+              color="accent"
+              matTooltip="Done"
+              (click)="completeObjective(objective)"
+              [disabled]="objective.progress !== 100"
+            >
+              <mat-icon>check</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
     </div>
