@@ -9,6 +9,33 @@
   padding-top: 40px;
   margin: 0 auto;
   width: 90%;
+  // flex-wrap: wrap;
+
+  display: flex;
+  flex-direction: row;
+
+  & > * {
+    margin-right: 30px;
+    margin-bottom: 20px;
+  }
+}
+
+.first-block {
+  display: flex;
+}
+
+.third-block {
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin-right: 30px;
+    margin-bottom: 20px;
+  }
+}
+
+.second-block {
+
   flex-wrap: wrap;
 
   display: flex;
@@ -18,4 +45,5 @@
     margin-right: 30px;
     margin-bottom: 20px;
   }
+
 }

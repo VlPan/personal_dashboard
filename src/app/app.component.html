@@ -1,10 +1,16 @@
 <div class="dashboard">
   <div class="dashboard__global-container">
-    <app-add-points></app-add-points>
-    <app-today-preview></app-today-preview>
-    <app-history></app-history>
-    <app-balance></app-balance>
-    <app-export-import></app-export-import>
-    <app-current-focus></app-current-focus>
+    <div class="first-block">
+      <app-current-focus></app-current-focus>
+    </div>
+    <div class="second-block">
+      <div class="third-block">
+        <app-add-points></app-add-points>
+        <app-export-import></app-export-import>
+      </div>
+      <app-today-preview></app-today-preview>
+      <app-balance></app-balance>
+      <app-history></app-history>
+    </div>
   </div>
 </div>

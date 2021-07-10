@@ -115,8 +115,6 @@ export class HistoryComponent implements OnInit {
       }
     );
 
-    console.log('-----> labels', labels);
-
     if(labels.length > 31) {
       this.canvasWidth = 800;
     } else if(labels.length > 7) {
