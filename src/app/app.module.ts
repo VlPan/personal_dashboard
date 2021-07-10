@@ -27,6 +27,8 @@ import { CurrentFocusComponent } from './components/current-focus/current-focus.
 import { AddObjectiveDialogComponent } from './components/current-focus/add-objective-dialog/add-objective-dialog.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import {MatSliderModule} from '@angular/material/slider';
     ReactiveFormsModule,
     MatListModule,
     MatTooltipModule,
-    MatSliderModule
+    MatSliderModule,
+    MatRadioModule,
+    MatCheckboxModule
     
   ],
   providers: [],
